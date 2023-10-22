@@ -1,21 +1,12 @@
-export type Word = {
-  "word": string;
-  "synonyms": string[];
-}
-
-async function getDictionary(): Word[] {
-  const plainText: string = await Deno.readTextFile("static/synonyms.jsonl");
-  const unparsedDictionary: string[] = plainText.split(/\n/g);
-  return await unparsedDictionary.map((line) => JSON.parse(line));
-}
+import { getDictionary, selectRandom } from "../lib/main.ts";
 
 export default async function Home() {
   const dictionary: Word[] = await getDictionary();
+  const answer: Word = selectRandom(dictionary);
 
   return (
     <div>
-      <h1>Synigma</h1>
-      {dictionary.map(word => <p>{word.word}</p>)}
+      <h1>The answer is {answer.word}</h1>
     </div>
   );
 }
