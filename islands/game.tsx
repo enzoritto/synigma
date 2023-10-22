@@ -3,18 +3,14 @@ import { useEffect, useState } from "preact/hooks";
 import Message from "../components/message.tsx";
 
 export default function Game({ dictionary, answer, startingSynonym }) {
-  const [currentSynonyms, setCurrentSynonyms] = useState<string[]>([
-    startingSynonym,
-  ]);
-  const [availableSynonyms, setAvailableSynonyms] = useState<string[]>(
+  const [currentSynonyms, setCurrentSynonyms] = useState([startingSynonym]);
+  const [availableSynonyms, setAvailableSynonyms] = useState(
     getAvailableSynonyms(answer.synonyms, currentSynonyms),
   );
-  const [guess, setGuess] = useState<string>("");
-
-  const [gameOver, setGameOver] = useState<boolean>(false);
-
-  const [message, setMessage] = useState<string>("");
-  const [showMessage, setShowMessage] = useState<boolean>(false);
+  const [guess, setGuess] = useState("");
+  const [gameOver, setGameOver] = useState(false);
+  const [message, setMessage] = useState("");
+  const [showMessage, setShowMessage] = useState(false);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -22,54 +18,66 @@ export default function Game({ dictionary, answer, startingSynonym }) {
     if (!guess) return;
 
     if (currentSynonyms.includes(guess)) {
-      setMessage("Invalid guess!");
-      setGuess("");
-      return;
-    }
-
-    if (guess === answer.word) {
-      setMessage("Correct! You won!");
-      setGameOver(true);
-      return;
-    }
-
-    if (availableSynonyms.includes(guess)) {
-      const updatedCurrentSynonyms = [...currentSynonyms, guess];
-      const updatedAvailableSynonyms = availableSynonyms.filter((synonym) =>
-        synonym !== guess
-      );
-
-      setCurrentSynonyms(updatedCurrentSynonyms);
-      setAvailableSynonyms(updatedAvailableSynonyms);
-      setMessage("You're on the right track!");
-      setGuess("");
+      handleInvalidGuess();
+    } else if (guess === answer.word) {
+      handleCorrectGuess();
+    } else if (availableSynonyms.includes(guess)) {
+      handleRightTrackGuess();
     } else if (availableSynonyms.length === 0) {
-      setMessage(`You lost! The word was ${answer.word}`);
-      setGameOver(true);
-      return;
+      handleGameOver();
     } else {
-      setMessage("Wrong! Try again!");
-      const randomAvailableSynonym = selectRandom(availableSynonyms);
-      const updatedCurrentSynonyms = [
-        ...currentSynonyms,
-        randomAvailableSynonym,
-      ];
-      const updatedAvailableSynonyms = availableSynonyms.filter((synonym) =>
-        synonym !== randomAvailableSynonym
-      );
-
-      setCurrentSynonyms(updatedCurrentSynonyms);
-      setAvailableSynonyms(updatedAvailableSynonyms);
-      setGuess("");
+      handleWrongGuess();
     }
   };
 
   useEffect(() => {
-    setShowMessage(true);
+    if (message) {
+      setShowMessage(true);
+    }
   }, [message]);
 
   const hideMessage = () => {
     setShowMessage(false);
+  };
+
+  const handleInvalidGuess = () => {
+    setMessage("Invalid guess!");
+    setGuess("");
+  };
+
+  const handleCorrectGuess = () => {
+    setMessage("Correct! You won!");
+    setGameOver(true);
+  };
+
+  const handleRightTrackGuess = () => {
+    const updatedCurrentSynonyms = [...currentSynonyms, guess];
+    const updatedAvailableSynonyms = availableSynonyms.filter((synonym) =>
+      synonym !== guess
+    );
+
+    setCurrentSynonyms(updatedCurrentSynonyms);
+    setAvailableSynonyms(updatedAvailableSynonyms);
+    setMessage("You're on the right track!");
+    setGuess("");
+  };
+
+  const handleGameOver = () => {
+    setMessage(`You lost! The word was ${answer.word}!`);
+    setGameOver(true);
+  };
+
+  const handleWrongGuess = () => {
+    setMessage("Wrong! Try again!");
+    const randomAvailableSynonym = selectRandom(availableSynonyms);
+    const updatedCurrentSynonyms = [...currentSynonyms, randomAvailableSynonym];
+    const updatedAvailableSynonyms = availableSynonyms.filter((synonym) =>
+      synonym !== randomAvailableSynonym
+    );
+
+    setCurrentSynonyms(updatedCurrentSynonyms);
+    setAvailableSynonyms(updatedAvailableSynonyms);
+    setGuess("");
   };
 
   const handleInputChange = (e) => {
@@ -87,13 +95,10 @@ export default function Game({ dictionary, answer, startingSynonym }) {
           type="text"
           value={guess}
           onInput={handleInputChange}
-          autocomplete="off"
+          autoComplete="off"
           disabled={gameOver && "disabled"}
         />
-        <button
-          type="submit"
-          disabled={gameOver && "disabled"}
-        >
+        <button type="submit" disabled={gameOver && "disabled"}>
           Check Guess
         </button>
       </form>
