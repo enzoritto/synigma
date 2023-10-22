@@ -1,6 +1,6 @@
 import { assertEquals, assert } from "$std/testing/asserts.ts";
 import { stub, resolvesNext } from "$std/testing/mock.ts";
-import { getDictionary, selectRandom } from '../lib/main.ts';
+import { getDictionary, selectRandom, getAvailableSynonyms } from '../lib/main.ts';
 
 const mockFileContents = `{"word": "happy", "synonyms": ["joyful", "content", "delighted", "cheerful"]}
 {"word": "quick", "synonyms": ["fast", "swift", "speedy", "rapid"]}`;
@@ -41,6 +41,35 @@ Deno.test('selectRandom', async (t) => {
       results.add(selectRandom(array));
     }
     assert(results.size === array.length);
+  });
+});
+
+Deno.test('getAvailableSynonyms', async (t) => {
+  await t.step("should return available synonyms", () => {
+    const synonyms = ['happy', 'joyful', 'content', 'pleased'];
+    const currentSynonyms = ['happy', 'joyful'];
+
+    const availableSynonyms = getAvailableSynonyms(synonyms, currentSynonyms);
+
+    assertEquals(availableSynonyms, ['content', 'pleased']);
+  });
+
+  await t.step('should return all synonyms if none are used', () => {
+    const synonyms = ['happy', 'joyful', 'content', 'pleased'];
+    const currentSynonyms: string[] = [];
+
+    const availableSynonyms = getAvailableSynonyms(synonyms, currentSynonyms);
+
+    assertEquals(availableSynonyms, ['happy', 'joyful', 'content', 'pleased']);
+  });
+
+  await t.step('should return an empty array if all synonyms are used', () => {
+    const synonyms = ['happy', 'joyful', 'content', 'pleased'];
+    const currentSynonyms = ['happy', 'joyful', 'content', 'pleased'];
+
+    const availableSynonyms = getAvailableSynonyms(synonyms, currentSynonyms);
+
+    assertEquals(availableSynonyms, []);
   });
 });
 

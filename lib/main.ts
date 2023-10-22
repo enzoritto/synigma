@@ -14,3 +14,7 @@ export function selectRandom<Type>(array: Type[]): Type {
   return array[randomIndex];
 }
 
+export function getAvailableSynonyms(synonyms: string[], currentSynonyms: string[]): string[] {
+  return synonyms.filter((synonym) => currentSynonyms.indexOf(synonym) == -1);
+}
+
