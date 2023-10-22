@@ -1,15 +1,19 @@
-import { selectRandom, getAvailableSynonyms } from "../lib/main.ts";
-import { useState, useEffect } from 'preact/hooks';
-import Message from '../components/message.tsx';
+import { getAvailableSynonyms, selectRandom } from "../lib/main.ts";
+import { useEffect, useState } from "preact/hooks";
+import Message from "../components/message.tsx";
 
 export default function Game({ dictionary, answer, startingSynonym }) {
-  const [currentSynonyms, setCurrentSynonyms] = useState<string[]>([startingSynonym]);
-  const [availableSynonyms, setAvailableSynonyms] = useState<string[]>(getAvailableSynonyms(answer.synonyms, currentSynonyms));
-  const [guess, setGuess] = useState<string>('');
+  const [currentSynonyms, setCurrentSynonyms] = useState<string[]>([
+    startingSynonym,
+  ]);
+  const [availableSynonyms, setAvailableSynonyms] = useState<string[]>(
+    getAvailableSynonyms(answer.synonyms, currentSynonyms),
+  );
+  const [guess, setGuess] = useState<string>("");
 
   const [gameOver, setGameOver] = useState<boolean>(false);
 
-  const [message, setMessage] = useState<string>('');
+  const [message, setMessage] = useState<string>("");
   const [showMessage, setShowMessage] = useState<boolean>(false);
 
   const handleSubmit = (e) => {
@@ -18,44 +22,51 @@ export default function Game({ dictionary, answer, startingSynonym }) {
     if (!guess) return;
 
     if (currentSynonyms.includes(guess)) {
-      setMessage('Invalid guess!')
-      setGuess('');
+      setMessage("Invalid guess!");
+      setGuess("");
       return;
     }
 
     if (guess === answer.word) {
-      setMessage('Correct! You won!')
+      setMessage("Correct! You won!");
       setGameOver(true);
       return;
     }
 
     if (availableSynonyms.includes(guess)) {
       const updatedCurrentSynonyms = [...currentSynonyms, guess];
-      const updatedAvailableSynonyms = availableSynonyms.filter(synonym => synonym !== guess);
+      const updatedAvailableSynonyms = availableSynonyms.filter((synonym) =>
+        synonym !== guess
+      );
 
       setCurrentSynonyms(updatedCurrentSynonyms);
       setAvailableSynonyms(updatedAvailableSynonyms);
       setMessage("You're on the right track!");
-      setGuess('');
+      setGuess("");
     } else if (availableSynonyms.length === 0) {
       setMessage(`You lost! The word was ${answer.word}`);
       setGameOver(true);
       return;
     } else {
-      setMessage('Wrong! Try again!');
+      setMessage("Wrong! Try again!");
       const randomAvailableSynonym = selectRandom(availableSynonyms);
-      const updatedCurrentSynonyms = [...currentSynonyms, randomAvailableSynonym];
-      const updatedAvailableSynonyms = availableSynonyms.filter(synonym => synonym !== randomAvailableSynonym);
+      const updatedCurrentSynonyms = [
+        ...currentSynonyms,
+        randomAvailableSynonym,
+      ];
+      const updatedAvailableSynonyms = availableSynonyms.filter((synonym) =>
+        synonym !== randomAvailableSynonym
+      );
 
       setCurrentSynonyms(updatedCurrentSynonyms);
       setAvailableSynonyms(updatedAvailableSynonyms);
-      setGuess('');
+      setGuess("");
     }
   };
 
   useEffect(() => {
     setShowMessage(true);
-  }, [message])
+  }, [message]);
 
   const hideMessage = () => {
     setShowMessage(false);
@@ -67,7 +78,9 @@ export default function Game({ dictionary, answer, startingSynonym }) {
 
   return (
     <div>
-      <p>Current Synonyms: <strong>{currentSynonyms.join(', ')}</strong></p>
+      <p>
+        Current Synonyms: <strong>{currentSynonyms.join(", ")}</strong>
+      </p>
 
       <form onSubmit={handleSubmit}>
         <input
@@ -75,12 +88,14 @@ export default function Game({ dictionary, answer, startingSynonym }) {
           value={guess}
           onInput={handleInputChange}
           autocomplete="off"
-          disabled={gameOver && 'disabled'}
+          disabled={gameOver && "disabled"}
         />
         <button
           type="submit"
-          disabled={gameOver && 'disabled'}
-        >Check Guess</button>
+          disabled={gameOver && "disabled"}
+        >
+          Check Guess
+        </button>
       </form>
 
       {showMessage && (
@@ -93,4 +108,3 @@ export default function Game({ dictionary, answer, startingSynonym }) {
     </div>
   );
 }
-

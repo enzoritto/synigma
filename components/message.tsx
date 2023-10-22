@@ -1,4 +1,4 @@
-import { useEffect } from 'preact/hooks';
+import { useEffect } from "preact/hooks";
 
 export default function Message({ message, isVisible, toggleVisibility }) {
   useEffect(() => {
@@ -21,4 +21,3 @@ export default function Message({ message, isVisible, toggleVisibility }) {
     )
   );
 }
-
