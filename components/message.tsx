@@ -15,7 +15,7 @@ export default function Message({ message, isVisible, toggleVisibility }) {
 
   return (
     isVisible && (
-      <div>
+      <div class="message">
         {message}
       </div>
     )

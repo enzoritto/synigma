@@ -71,3 +71,143 @@ textarea:not([rows]) {
   scroll-margin-block: 5ex;
 }
 
+:root {
+  --dark-shades: #221622;
+  --dark-shades-highlight: #352635;
+  --dark-shades-highlight-border: #593d59;
+  --main-color: #9e2cb7;
+  --main-color-border: #da6cf2;
+  --light-accent: #4383d6;
+  --light-accent-border: #8ec1ff;
+  --light-shades: #f4f6f4;
+  --won-color: #2abf33;
+  --won-color-border: #39df43;
+  --lost-color: #b63f54;
+  --lost-color-border: #f06c83;
+}
+
+body {
+  display: flex;
+
+  background-color: var(--dark-shades);
+}
+
+main {
+  max-width: 375px;
+
+  display: flex;
+  flex-direction: column;
+
+  margin: 0 auto;
+  margin-top: 10%;
+
+  font-family: 'Rubik', sans-serif;
+  font-weight: 300;
+}
+
+.instructions {
+  margin-bottom: 50px;
+
+  font-size: 24px;
+  text-align: center;
+  color: #e6c2e6;
+}
+
+.synonyms {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+
+  margin-bottom: 50px;
+}
+
+.synonym-block {
+  padding: 10px 15px;
+  margin: 10px 5px;
+  width: fit-content;
+
+  font-family: 'Rubik', sans-serif;
+  font-weight: 500;
+  text-transform: uppercase;
+
+  border: 1px solid var(--main-color-border);
+  border-radius: 5px;
+  background: var(--main-color);
+}
+
+form {
+  display: flex;
+  width: 100%;
+  margin: 0 auto;
+}
+
+input {
+  padding: 10px;
+
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--light-shades);
+
+  width: 100%;
+  flex: auto;
+
+  border: 1px solid var(--dark-shades-highlight-border);
+  border-radius: 5px;
+  background: var(--dark-shades-highlight);
+  box-shadow: 0;
+  outline: 0;
+}
+input.game-won {
+  background-color: var(--won-color);
+  border-color: var(--won-color-border);
+
+  font-weight: 500;
+}
+input.game-lost {
+  background-color: var(--lost-color);
+  border-color: var(--lost-color-border);
+
+  font-weight: 500;
+}
+
+button {
+  padding: 10px;
+  margin-left: 10px;
+
+  color: white;
+  font-weight: 500;
+  text-transform: uppercase;
+
+  border: 1px solid var(--light-accent-border);
+  border-radius: 5px;
+  background: var(--light-accent);
+
+  cursor: pointer;
+
+  transition:
+    width .5s,
+    padding .5s,
+    opacity .5s;
+}
+button.game-won, button.game-lost {
+  width: 0;
+  padding: 0;
+  opacity: 0;
+
+  color: transparent;
+}
+
+.message {
+  position: absolute;
+  padding: 10px 15px;
+
+  width: fit-content;
+  margin: 0 auto;
+
+  background-color: var(--light-shades);
+  border: 1px solid #dfdfdf;
+  border-radius: 5px;
+  align-self: center;
+  top: 50px;
+}
+

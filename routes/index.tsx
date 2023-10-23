@@ -7,12 +7,12 @@ export default async function Home() {
   const startingSynonym: string = selectRandom(answer.synonyms);
 
   return (
-    <div>
+    <>
       <Game
         dictionary={dictionary}
         answer={answer}
         startingSynonym={startingSynonym}
       />
-    </div>
+    </>
   );
 }
