@@ -8,7 +8,8 @@ export default function Game({ dictionary, answer, startingSynonym }) {
     getAvailableSynonyms(answer.synonyms, currentSynonyms),
   );
   const [guess, setGuess] = useState("");
-  const [gameOver, setGameOver] = useState(false);
+  const [gameWon, setGameWon] = useState(false);
+  const [gameLost, setGameLost] = useState(false);
   const [message, setMessage] = useState("");
   const [showMessage, setShowMessage] = useState(false);
 
@@ -47,7 +48,7 @@ export default function Game({ dictionary, answer, startingSynonym }) {
 
   const handleCorrectGuess = () => {
     setMessage("Correct! You won!");
-    setGameOver(true);
+    setGameWon(true);
   };
 
   const handleRightTrackGuess = () => {
@@ -63,8 +64,9 @@ export default function Game({ dictionary, answer, startingSynonym }) {
   };
 
   const handleGameOver = () => {
-    setMessage(`You lost! The word was ${answer.word}!`);
-    setGameOver(true);
+    setMessage("You lost!");
+    setGuess(answer.word);
+    setGameLost(true);
   };
 
   const handleWrongGuess = () => {
@@ -85,21 +87,31 @@ export default function Game({ dictionary, answer, startingSynonym }) {
   };
 
   return (
-    <div>
-      <p>
-        Current Synonyms: <strong>{currentSynonyms.join(", ")}</strong>
-      </p>
+    <main>
+      <h1 class="instructions">Guess the word based on these synonyms</h1>
+
+      <div class="synonyms">
+        {currentSynonyms.map((synonym, _) => {
+          return <div class="synonym-block">{synonym}</div>;
+        })}
+      </div>
 
       <form onSubmit={handleSubmit}>
         <input
           type="text"
+          placeholder="YOUR GUESS"
           value={guess}
           onInput={handleInputChange}
           autoComplete="off"
-          disabled={gameOver && "disabled"}
+          disabled={gameWon || gameLost && "disabled"}
+          class={gameLost && "game-lost" || gameWon && "game-won"}
         />
-        <button type="submit" disabled={gameOver && "disabled"}>
-          Check Guess
+        <button
+          type="submit"
+          disabled={gameWon || gameLost && "disabled"}
+          class={gameLost && "game-lost" || gameWon && "game-won"}
+        >
+          Guess
         </button>
       </form>
 
@@ -110,6 +122,6 @@ export default function Game({ dictionary, answer, startingSynonym }) {
           toggleVisibility={hideMessage}
         />
       )}
-    </div>
+    </main>
   );
 }
