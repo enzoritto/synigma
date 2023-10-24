@@ -4,7 +4,10 @@ import Message from "../components/message.tsx";
 import Confetti from "../components/preact-confetti.tsx";
 
 export default function Game({ dictionary, answer, startingSynonym }) {
-  const [currentSynonyms, setCurrentSynonyms] = useState([startingSynonym]);
+  const [currentSynonyms, setCurrentSynonyms] = useState([{
+    word: startingSynonym,
+    guessed: false,
+  }]);
   const [availableSynonyms, setAvailableSynonyms] = useState(
     getAvailableSynonyms(answer.synonyms, currentSynonyms),
   );
@@ -38,7 +41,7 @@ export default function Game({ dictionary, answer, startingSynonym }) {
 
     if (!guess) return;
 
-    if (currentSynonyms.includes(guess)) {
+    if (Object.values(currentSynonyms).includes(guess)) {
       handleInvalidGuess();
     } else if (guess === answer.word) {
       handleCorrectGuess();
@@ -62,7 +65,10 @@ export default function Game({ dictionary, answer, startingSynonym }) {
   };
 
   const handleRightTrackGuess = () => {
-    const updatedCurrentSynonyms = [...currentSynonyms, guess];
+    const updatedCurrentSynonyms = [...currentSynonyms, {
+      word: guess,
+      guessed: true,
+    }];
     const updatedAvailableSynonyms = availableSynonyms.filter((synonym) =>
       synonym !== guess
     );
@@ -82,7 +88,10 @@ export default function Game({ dictionary, answer, startingSynonym }) {
   const handleWrongGuess = () => {
     setMessage({ message: "Wrong! Try again!", id: message.id + 1 });
     const randomAvailableSynonym = selectRandom(availableSynonyms);
-    const updatedCurrentSynonyms = [...currentSynonyms, randomAvailableSynonym];
+    const updatedCurrentSynonyms = [...currentSynonyms, {
+      word: randomAvailableSynonym,
+      guessed: false,
+    }];
     const updatedAvailableSynonyms = availableSynonyms.filter((synonym) =>
       synonym !== randomAvailableSynonym
     );
@@ -113,7 +122,15 @@ export default function Game({ dictionary, answer, startingSynonym }) {
 
       <div class="synonyms">
         {currentSynonyms.map((synonym, _) => {
-          return <div class="synonym-block">{synonym}</div>;
+          return (
+            <div
+              class={synonym.guessed
+                ? "synonym-block guessed"
+                : "synonym-block"}
+            >
+              {synonym.word}
+            </div>
+          );
         })}
       </div>
 
