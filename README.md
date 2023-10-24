@@ -1,6 +1,6 @@
 # Synigma
 
-## Synonym puzzle game
+Synonym puzzle game
 
 ### Usage
 
@@ -22,4 +22,4 @@ request.
 
 Make sure to run `deno test` & `deno fmt` before commiting.
 
-[![Made with Fresh](https://fresh.deno.dev/fresh-badge-dark.svg)](https://fresh.deno.dev)
+[![Made with Fresh](https://fresh.deno.dev/fresh-badge.svg)](https://fresh.deno.dev)
