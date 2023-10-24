@@ -1,4 +1,4 @@
-import tweens from "npm:tween-functions";
+import tweens from "https://esm.sh/tween-functions";
 import { IRect } from "./rect.ts";
 import ParticleGenerator from "./particle-generator.ts";
 
