@@ -4,9 +4,9 @@ export default function Message({ message }) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
-    if (message === "") return;
+    if (message.message === "") return;
     setIsVisible(true);
-  }, [message]);
+  }, [message.id]);
 
   useEffect(() => {
     if (isVisible) {
@@ -23,7 +23,7 @@ export default function Message({ message }) {
   return (
     isVisible && (
       <div class="message">
-        {message}
+        {message.message}
       </div>
     )
   );

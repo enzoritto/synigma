@@ -11,7 +11,7 @@ export default function Game({ dictionary, answer, startingSynonym }) {
   const [guess, setGuess] = useState("");
   const [gameWon, setGameWon] = useState(false);
   const [gameLost, setGameLost] = useState(false);
-  const [message, setMessage] = useState("");
+  const [message, setMessage] = useState({ message: "", id: 0 });
 
   const [windowSize, setWindowSize] = useState({
     width: window.innerWidth,
@@ -52,12 +52,12 @@ export default function Game({ dictionary, answer, startingSynonym }) {
   };
 
   const handleInvalidGuess = () => {
-    setMessage("Invalid guess!");
+    setMessage({ message: "Invalid guess!", id: message.id + 1 });
     setGuess("");
   };
 
   const handleCorrectGuess = () => {
-    setMessage("Correct! You won!");
+    setMessage({ message: "Correct! You Won!", id: message.id + 1 });
     setGameWon(true);
   };
 
@@ -69,18 +69,18 @@ export default function Game({ dictionary, answer, startingSynonym }) {
 
     setCurrentSynonyms(updatedCurrentSynonyms);
     setAvailableSynonyms(updatedAvailableSynonyms);
-    setMessage("You're on the right track!");
+    setMessage({ message: "You're on the right track!", id: message.id + 1 });
     setGuess("");
   };
 
   const handleGameOver = () => {
-    setMessage("You lost!");
+    setMessage({ message: "You lost!", id: message.id + 1 });
     setGuess(answer.word);
     setGameLost(true);
   };
 
   const handleWrongGuess = () => {
-    setMessage("Wrong! Try again!");
+    setMessage({ message: "Wrong! Try again!", id: message.id + 1 });
     const randomAvailableSynonym = selectRandom(availableSynonyms);
     const updatedCurrentSynonyms = [...currentSynonyms, randomAvailableSynonym];
     const updatedAvailableSynonyms = availableSynonyms.filter((synonym) =>
