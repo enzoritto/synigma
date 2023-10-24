@@ -26,10 +26,10 @@ export default function Game({ dictionary, answer, startingSynonym }) {
       });
     };
 
-    window.addEventListener("resize", handleResize);
+    addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener("resize", handleResize);
+      removeEventListener("resize", handleResize);
     };
   }, []);
 
