@@ -1,4 +1,4 @@
-import { useState, useEffect } from "preact/hooks";
+import { useEffect, useState } from "preact/hooks";
 
 export default function Message({ message }) {
   const [isVisible, setIsVisible] = useState(false);

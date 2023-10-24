@@ -26,10 +26,10 @@ export default function Game({ dictionary, answer, startingSynonym }) {
       });
     };
 
-    window.addEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
 
     return () => {
-      window.removeEventListener('resize', handleResize);
+      window.removeEventListener("resize", handleResize);
     };
   }, []);
 
@@ -97,8 +97,15 @@ export default function Game({ dictionary, answer, startingSynonym }) {
   };
 
   const spawnConfetti = () => {
-    return <Confetti width={windowSize.width} height={windowSize.height} recycle={false} numberOfPieces="200" />;
-  }
+    return (
+      <Confetti
+        width={windowSize.width}
+        height={windowSize.height}
+        recycle={false}
+        numberOfPieces="200"
+      />
+    );
+  };
 
   return (
     <main>
