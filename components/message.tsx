@@ -1,17 +1,24 @@
-import { useEffect } from "preact/hooks";
+import { useState, useEffect } from "preact/hooks";
 
-export default function Message({ message, isVisible, toggleVisibility }) {
+export default function Message({ message }) {
+  const [isVisible, setIsVisible] = useState(false);
+
+  useEffect(() => {
+    if (message === "") return;
+    setIsVisible(true);
+  }, [message]);
+
   useEffect(() => {
     if (isVisible) {
       const timer = setTimeout(() => {
-        toggleVisibility();
+        setIsVisible(false);
       }, 3000);
 
       return () => {
         clearTimeout(timer);
       };
     }
-  }, [isVisible, toggleVisibility]);
+  }, [isVisible]);
 
   return (
     isVisible && (
