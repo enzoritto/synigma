@@ -28,21 +28,21 @@ export default class ParticleGenerator implements IParticleGenerator {
 
   getOptions: () => IConfettiOptions;
 
-  x: number = 0;
+  x = 0;
 
-  y: number = 0;
+  y = 0;
 
-  w: number = 0;
+  w = 0;
 
-  h: number = 0;
+  h = 0;
 
-  lastNumberOfPieces: number = 0;
+  lastNumberOfPieces = 0;
 
   tweenInitTime: number = Date.now();
 
   particles: Particle[] = [];
 
-  particlesGenerated: number = 0;
+  particlesGenerated = 0;
 
   removeParticleAt = (i: number) => {
     this.particles.splice(i, 1);

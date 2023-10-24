@@ -8,7 +8,7 @@ import Confetti, {
 export type Props =
   & Partial<IConfettiOptions>
   & JSX.IntrinsicElements["canvas"]
-  & { canvasRef?: any };
+  & { canvasRef? };
 
 export default function ReactConfettiInternal(props: Props) {
   const canvasRef = useRef<HTMLCanvasElement | null>(null);
@@ -37,13 +37,13 @@ export default function ReactConfettiInternal(props: Props) {
   const [confettiOptions, passedProps] = extractCanvasProps(props);
   const canvasStyles = {
     zIndex: 2,
-    position: "absolute" as "absolute",
-    pointerEvents: "none" as "none",
+    position: "absolute" as const,
+    pointerEvents: "none" as const,
     top: 0,
     left: 0,
     bottom: 0,
     right: 0,
-    ...(passedProps.style as any),
+    ...(passedProps.style),
   };
 
   return (
@@ -58,15 +58,15 @@ export default function ReactConfettiInternal(props: Props) {
 }
 
 interface Refs {
-  [key: string]: any;
+  [key: string];
 }
 
 function extractCanvasProps(
-  props: Partial<IConfettiOptions> | any,
+  props: Partial<IConfettiOptions>,
 ): [Partial<IConfettiOptions>, Partial<JSX.IntrinsicElements["canvas"]>, Refs] {
   const confettiOptions: Partial<IConfettiOptions> = {};
   const refs: Refs = {};
-  const rest: any = {};
+  const rest = {};
   const confettiOptionKeys = [
     ...Object.keys(confettiDefaults),
     "confettiSource",
@@ -80,7 +80,7 @@ function extractCanvasProps(
     if (confettiOptionKeys.includes(prop)) {
       confettiOptions[prop as keyof IConfettiOptions] = val;
     } else if (refProps.includes(prop)) {
-      refProps[prop as any] = val;
+      refProps[prop] = val;
     } else {
       rest[prop] = val;
     }
@@ -93,3 +93,4 @@ export const ReactConfetti = forwardRef<HTMLCanvasElement, Props>((
   props,
   ref,
 ) => <ReactConfettiInternal canvasRef={ref} {...props} />);
+
