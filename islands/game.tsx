@@ -1,6 +1,7 @@
 import { getAvailableSynonyms, selectRandom } from "../lib/main.ts";
 import { useEffect, useState } from "preact/hooks";
 import Message from "../components/message.tsx";
+import Confetti from "../components/preact-confetti.tsx";
 
 export default function Game({ dictionary, answer, startingSynonym }) {
   const [currentSynonyms, setCurrentSynonyms] = useState([startingSynonym]);
@@ -11,7 +12,26 @@ export default function Game({ dictionary, answer, startingSynonym }) {
   const [gameWon, setGameWon] = useState(false);
   const [gameLost, setGameLost] = useState(false);
   const [message, setMessage] = useState("");
-  const [showMessage, setShowMessage] = useState(false);
+
+  const [windowSize, setWindowSize] = useState({
+    width: window.innerWidth,
+    height: window.innerHeight,
+  });
+
+  useEffect(() => {
+    const handleResize = () => {
+      setWindowSize({
+        width: window.innerWidth,
+        height: window.innerHeight,
+      });
+    };
+
+    window.addEventListener("resize", handleResize);
+
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -29,16 +49,6 @@ export default function Game({ dictionary, answer, startingSynonym }) {
     } else {
       handleWrongGuess();
     }
-  };
-
-  useEffect(() => {
-    if (message) {
-      setShowMessage(true);
-    }
-  }, [message]);
-
-  const hideMessage = () => {
-    setShowMessage(false);
   };
 
   const handleInvalidGuess = () => {
@@ -86,6 +96,17 @@ export default function Game({ dictionary, answer, startingSynonym }) {
     setGuess(e.target.value);
   };
 
+  const spawnConfetti = () => {
+    return (
+      <Confetti
+        width={windowSize.width}
+        height={windowSize.height}
+        recycle={false}
+        numberOfPieces="200"
+      />
+    );
+  };
+
   return (
     <main>
       <h1 class="instructions">Guess the word based on these synonyms</h1>
@@ -115,13 +136,11 @@ export default function Game({ dictionary, answer, startingSynonym }) {
         </button>
       </form>
 
-      {showMessage && (
-        <Message
-          message={message}
-          isVisible={showMessage}
-          toggleVisibility={hideMessage}
-        />
-      )}
+      {gameWon && spawnConfetti()}
+
+      <Message
+        message={message}
+      />
     </main>
   );
 }
