@@ -81,7 +81,7 @@ textarea:not([rows]) {
   --light-accent-border: #8ec1ff;
   --light-shades: #f4f6f4;
   --won-color: #2abf33;
-  --won-color-border: #39df43;
+  --won-color-border: #90ff97;
   --lost-color: #b63f54;
   --lost-color-border: #f06c83;
 }
@@ -133,6 +133,10 @@ main {
   border: 1px solid var(--main-color-border);
   border-radius: 5px;
   background: var(--main-color);
+}
+.synonym-block.guessed {
+  border-color: var(--won-color-border);
+  background: var(--won-color);
 }
 
 form {
