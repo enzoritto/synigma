@@ -41,7 +41,7 @@ export default function Game({ dictionary, answer, startingSynonym }) {
 
     if (!guess) return;
 
-    if (currentSynonyms.some(synonym => synonym.word === guess)) {
+    if (currentSynonyms.some((synonym) => synonym.word === guess)) {
       handleInvalidGuess();
     } else if (guess === answer.word) {
       handleCorrectGuess();
