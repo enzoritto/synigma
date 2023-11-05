@@ -102,7 +102,7 @@ export default function Game({ dictionary, answer, startingSynonym }) {
   };
 
   const handleInputChange = (e) => {
-    setGuess(e.target.value);
+    setGuess(e.target.value.trim().toLowerCase());
   };
 
   const spawnConfetti = () => {
