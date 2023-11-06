@@ -1,84 +1,31 @@
-/* Box sizing rules */
-*,
-*::before,
-*::after {
-  box-sizing: border-box;
+@import '/reset.css';
+
+@font-face {
+  font-family: "Rubik Light";
+  font-weight: 300;
+  src:
+    local("Rubik"),
+    url("/rubik-light.ttf") format("TrueType");
+  font-display: swap;
 }
 
-/* Prevent font size inflation */
-html {
-  -moz-text-size-adjust: none;
-  -webkit-text-size-adjust: none;
-  text-size-adjust: none;
-}
-
-/* Remove default margin in favour of better control in authored CSS */
-body, h1, h2, h3, h4, p,
-figure, blockquote, dl, dd {
-  margin: 0;
-}
-
-/* Remove list styles on ul, ol elements with a list role, which suggests default styling will be removed */
-ul[role='list'],
-ol[role='list'] {
-  list-style: none;
-}
-
-/* Set core body defaults */
-body {
-  min-height: 100vh;
-  line-height: 1.5;
-}
-
-/* Set shorter line heights on headings and interactive elements */
-h1, h2, h3, h4,
-button, input, label {
-  line-height: 1.1;
-}
-
-/* Balance text wrapping on headings */
-h1, h2,
-h3, h4 {
-  text-wrap: balance;
-}
-
-/* A elements that don't have a class get default styles */
-a:not([class]) {
-  text-decoration-skip-ink: auto;
-  color: currentColor;
-}
-
-/* Make images easier to work with */
-img,
-picture {
-  max-width: 100%;
-  display: block;
-}
-
-/* Inherit fonts for inputs and buttons */
-input, button,
-textarea, select {
-  font: inherit;
-}
-
-/* Make sure textareas without a rows attribute are not tiny */
-textarea:not([rows]) {
-  min-height: 10em;
-}
-
-/* Anything that has been anchored to should have extra scroll margin */
-:target {
-  scroll-margin-block: 5ex;
+@font-face {
+  font-family: "Rubik Medium";
+  font-weight: 500;
+  src:
+    local("Rubik"),
+    url("/rubik-medium.ttf") format("TrueType");
+  font-display: swap;
 }
 
 :root {
   --dark-shades: #221622;
   --dark-shades-highlight: #352635;
   --dark-shades-highlight-border: #593d59;
-  --main-color: #9e2cb7;
-  --main-color-border: #da6cf2;
-  --light-accent: #4383d6;
-  --light-accent-border: #8ec1ff;
+  --main-color: #b165c1;
+  --main-color-border: #ee9fff;
+  --light-accent: #1855a4;
+  --light-accent-border: #4386d9;
   --light-shades: #f4f6f4;
   --won-color: #2abf33;
   --won-color-border: #90ff97;
@@ -90,6 +37,8 @@ body {
   display: flex;
 
   background-color: var(--dark-shades);
+
+  font-family: 'Rubik Medium', sans-serif;
 }
 
 main {
@@ -101,7 +50,6 @@ main {
   margin: 0 auto;
   margin-top: 10%;
 
-  font-family: 'Rubik', sans-serif;
   font-weight: 300;
 }
 
@@ -126,8 +74,6 @@ main {
   margin: 10px 5px;
   width: fit-content;
 
-  font-family: 'Rubik', sans-serif;
-  font-weight: 500;
   text-transform: uppercase;
 
   border: 1px solid var(--main-color-border);
@@ -152,6 +98,8 @@ input {
   text-transform: uppercase;
   color: var(--light-shades);
 
+  font-family: "Rubik Light", sans-serif;
+
   width: 100%;
   flex: auto;
 
@@ -165,13 +113,13 @@ input.game-won {
   background-color: var(--won-color);
   border-color: var(--won-color-border);
 
-  font-weight: 500;
+  font-family: "Rubik Medium", sans-serif;
 }
 input.game-lost {
   background-color: var(--lost-color);
   border-color: var(--lost-color-border);
 
-  font-weight: 500;
+  font-family: "Rubik Medium", sans-serif;
 }
 
 button {
@@ -179,7 +127,6 @@ button {
   margin-left: 10px;
 
   color: white;
-  font-weight: 500;
   text-transform: uppercase;
 
   border: 1px solid var(--light-accent-border);
@@ -213,5 +160,7 @@ button.game-won, button.game-lost {
   border-radius: 5px;
   align-self: center;
   top: 50px;
+
+  font-family: "Rubik Light", sans-serif;
 }
 
