@@ -1,15 +1,17 @@
-import { getAvailableSynonyms, selectRandom } from "../lib/main.ts";
+import { getAvailableSynonyms, selectRandom, type Word } from "../lib/utils.ts";
 import { useEffect, useState } from "preact/hooks";
 import Message from "../components/message.tsx";
 import Confetti from "../components/preact-confetti.tsx";
 
-export default function Game({ dictionary, answer, startingSynonym }) {
+export default function Game(
+  { answer, startingSynonym }: { answer: Word; startingSynonym: string },
+) {
   const [currentSynonyms, setCurrentSynonyms] = useState([{
     word: startingSynonym,
     guessed: false,
   }]);
   const [availableSynonyms, setAvailableSynonyms] = useState(
-    getAvailableSynonyms(answer.synonyms, currentSynonyms[0].word),
+    getAvailableSynonyms(answer.synonyms, [currentSynonyms[0].word]),
   );
   const [guess, setGuess] = useState("");
   const [gameWon, setGameWon] = useState(false);
@@ -36,8 +38,8 @@ export default function Game({ dictionary, answer, startingSynonym }) {
     };
   }, []);
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
+  const handleSubmit = (event: Event) => {
+    event.preventDefault();
 
     if (!guess) return;
 
@@ -101,8 +103,9 @@ export default function Game({ dictionary, answer, startingSynonym }) {
     setGuess("");
   };
 
-  const handleInputChange = (e) => {
-    setGuess(e.target.value.trim().toLowerCase());
+  const handleInputChange = (event: Event) => {
+    const value = (event.target as HTMLInputElement)?.value;
+    setGuess(value.trim().toLowerCase());
   };
 
   const spawnConfetti = () => {
@@ -141,13 +144,13 @@ export default function Game({ dictionary, answer, startingSynonym }) {
           value={guess}
           onInput={handleInputChange}
           autoComplete="off"
-          disabled={gameWon || gameLost && "disabled"}
-          class={gameLost && "game-lost" || gameWon && "game-won"}
+          disabled={(gameWon || gameLost) ? true : undefined}
+          class={(gameLost ? "game-lost" : "") || (gameWon ? "game-won" : "")}
         />
         <button
           type="submit"
-          disabled={gameWon || gameLost && "disabled"}
-          class={gameLost && "game-lost" || gameWon && "game-won"}
+          disabled={(gameWon || gameLost) ? true : undefined}
+          class={(gameLost ? "game-lost" : "") || (gameWon ? "game-won" : "")}
         >
           Guess
         </button>
