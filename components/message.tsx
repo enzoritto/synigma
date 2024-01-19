@@ -1,6 +1,8 @@
 import { useEffect, useState } from "preact/hooks";
 
-export default function Message({ message }) {
+export default function Message(
+  { message }: { message: { message: string; id: number } },
+) {
   const [isVisible, setIsVisible] = useState(false);
 
   useEffect(() => {
@@ -20,11 +22,5 @@ export default function Message({ message }) {
     }
   }, [isVisible]);
 
-  return (
-    isVisible && (
-      <div class="message">
-        {message.message}
-      </div>
-    )
-  );
+  return isVisible ? <div class="message">{message.message}</div> : null;
 }
