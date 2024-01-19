@@ -1,5 +1,5 @@
 import Game from "../islands/game.tsx";
-import { getDictionary, selectRandom } from "../lib/main.ts";
+import { getDictionary, selectRandom } from "../lib/utils.ts";
 
 export default async function Home() {
   const dictionary: Word[] = await getDictionary();

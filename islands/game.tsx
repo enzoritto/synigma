@@ -1,4 +1,4 @@
-import { getAvailableSynonyms, selectRandom } from "../lib/main.ts";
+import { getAvailableSynonyms, selectRandom } from "../lib/utils.ts";
 import { useEffect, useState } from "preact/hooks";
 import Message from "../components/message.tsx";
 import Confetti from "../components/preact-confetti.tsx";

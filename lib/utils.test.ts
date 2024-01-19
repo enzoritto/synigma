@@ -1,10 +1,6 @@
 import { assert, assertEquals } from "$std/testing/asserts.ts";
 import { resolvesNext, stub } from "$std/testing/mock.ts";
-import {
-  getAvailableSynonyms,
-  getDictionary,
-  selectRandom,
-} from "../lib/main.ts";
+import { getAvailableSynonyms, getDictionary, selectRandom } from "./utils.ts";
 
 const mockFileContents =
   `{"word": "happy", "synonyms": ["joyful", "content", "delighted", "cheerful"]}
