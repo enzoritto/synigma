@@ -1,5 +1,5 @@
 import Game from "../islands/game.tsx";
-import { getDictionary, selectRandom } from "../lib/utils.ts";
+import { type Word, getDictionary, selectRandom } from "../lib/utils.ts";
 
 export default async function Home() {
   const dictionary: Word[] = await getDictionary();
@@ -9,7 +9,6 @@ export default async function Home() {
   return (
     <>
       <Game
-        dictionary={dictionary}
         answer={answer}
         startingSynonym={startingSynonym}
       />

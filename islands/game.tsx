@@ -114,7 +114,7 @@ export default function Game(
         width={windowSize.width}
         height={windowSize.height}
         recycle={false}
-        numberOfPieces="200"
+        numberOfPieces={200}
       />
     );
   };
