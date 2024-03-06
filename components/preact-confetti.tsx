@@ -1,5 +1,5 @@
 import { useEffect, useRef } from "preact/hooks";
-import { forwardRef } from "preact/compat";
+import { JSX, forwardRef } from "preact/compat";
 import Confetti, {
   confettiDefaults,
   IConfettiOptions,
